@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Options</title>
+    <style>
+        body {
+            padding: 5px;
+            width: 260px;
+        }
+    </style>
+</head>
+
+<body>
+    <label>
+        Log me out from: 
+    </label>
+    <input type="checkbox" id="fb">Facebook
+    <input type="checkbox" id="gmail">Gmail
+    <hr>
+    <br>
+    <label>
+        Logout after (minimum: 16sec):
+    </label>
+    <input type="number" id="timeout" min="1" max="59">
+    <select id="units">
+        <option value="sec">sec</option>
+        <option value="min">min</option>
+    </select>
+    <hr>
+    <br>
+    <label>
+        Show me an alert before the logout:  
+    </label>
+    <input type="checkbox" id="alert">
+    <hr>
+    
+    <div id="status"></div>
+    <button id="save">Save</button>
+
+    <script src="options.js"></script>
+</body>
+</html>

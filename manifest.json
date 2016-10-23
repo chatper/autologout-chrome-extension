@@ -1,0 +1,33 @@
+{
+    "name": "AutoLogout",
+    "description": "Logout from Facebook and/or Gmail after a configurable idle period.",
+    "version": "1.0",
+    "permissions": [
+        "tabs", "idle", "storage"
+    ],
+    "background" : {
+        "scripts": ["background.js"]
+    },
+    "content_scripts": [
+        {
+        "matches": ["https://www.facebook.com/*"],
+        "js": ["fb.js"]
+        },
+        {
+        "matches": ["https://mail.google.com/*"],
+        "js": ["gmail.js"]
+        }
+    ],
+    "options_ui": {
+        "page": "options.html",
+        "chrome_style": true
+    },
+    "browser_action": {
+        "default_title": "AutoLogout",
+        "default_icon": {
+            "48": "48.png"
+        },
+        "default_popup": "popup.html"
+    },
+    "manifest_version": 2
+}
