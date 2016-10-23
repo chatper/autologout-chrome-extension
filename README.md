@@ -3,6 +3,6 @@ A chrome/chromium extension that logs you out automatically from Facebook and/or
 
 # Installation
 1. Download and unzip
-2. Navigate to ```chrome://extensions/```
+2. Navigate to [chrome://extensions/]
 3. Check "Developer mode" box
 4. Click "Load unpacked extension..." and select the autologout-chrome-extension
