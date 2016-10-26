@@ -3,11 +3,18 @@ chrome.runtime.sendMessage({msg: "registerTabId", from: "fb"});
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     if (request.msg == "logout") {
-        logout(request.alert);
+        if (request.alert == true) {
+            if (confirm('Do you want to stay logged in?')) {
+                //logout cancelled -> re-register tab id
+                chrome.runtime.sendMessage({msg: "registerTabId", from: "fb"});
+                return;
+            }
+        }
+        logout();
     }
 });
 
-function logout(shouldAlert) {
+function logout() {
     //get the logout menu element
     var results = document.evaluate( '//a[@id="pageLoginAnchor"]', document,  null, XPathResult.ANY_TYPE, null );
     
@@ -19,13 +26,9 @@ function logout(shouldAlert) {
     if (logoutMenu) logoutMenu.click();
         
     //click on logout button
-    var timeout = setTimeout(function() {
-        results = document.evaluate( '//ul[contains(@class, "_54nf")]/li[12]/a', document, null, XPathResult.ANY_TYPE, null );
+    setTimeout(function() {
+        results = document.evaluate( '//*[@id="show_me_how_logout_1"]/ancestor::a', document, null, XPathResult.ANY_TYPE, null );
         var logoutBtn = results.iterateNext();
         if (logoutBtn) logoutBtn.click();
-    }, 2000);
-    if (shouldAlert) {
-        alert('Click to cancel autologoff');
-        clearTimeout( timeout );
-    }
+    }, 1000);
 }

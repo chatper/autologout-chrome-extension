@@ -1,21 +1,32 @@
 var fb, gmail, shouldAlert, tabs = [];
 
 chrome.storage.sync.get(['gmail', 'fb', 'timeout', 'alert'], function(response) {
-    chrome.idle.setDetectionInterval(+response.timeout);
+    chrome.idle.setDetectionInterval(0+parseInt(response.timeout));
     fb = response.fb;
     gmail = response.gmail;
     shouldAlert = response.alert;
 });
 
+//reload open tabs with fb and gmail
+chrome.tabs.query({'url': ['https://www.facebook.com/*', 'https://mail.google.com/*']}, function(tabs_){
+    for (var i in tabs_) {
+        chrome.tabs.reload(tabs_[i].id);
+    }
+});
+
 //settings changed
 chrome.storage.onChanged.addListener(function () {
     chrome.storage.sync.get(['gmail', 'fb', 'timeout'], function(response) {
-        chrome.idle.setDetectionInterval(+response.timeout);
+        chrome.idle.setDetectionInterval(0+parseInt(response.timeout));
         fb = response.fb;
         gmail = response.gmail;
-        
-        for (var i in tabs) {
-            chrome.tabs.reload(tabs[i]);
+        if (confirm('Settings changed! Reload open tabs with Facebook or Gmail?')) {
+            //reload open tabs with fb and gmail
+            chrome.tabs.query({'url': ['https://www.facebook.com/*', 'https://mail.google.com/*']}, function(tabs_){
+                for (var i in tabs_) {
+                    chrome.tabs.reload(tabs_[i].id);
+                }
+            });
         }
     });
 });
@@ -35,7 +46,6 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
         }
         if (!exists) {
             tabs.push(sender.tab.id);
-            console.log(tabs);
         }
     }
 });
@@ -47,8 +57,4 @@ chrome.idle.onStateChanged.addListener(function(state) {
         }
         tabs = [];
     }
-});
-
-chrome.browserAction.onClicked.addListener(function () {
-    chrome.runtime.openOptionsPage();
 });

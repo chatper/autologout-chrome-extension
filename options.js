@@ -6,7 +6,7 @@ function save_options() {
   var units = document.getElementById('units').value;
   var alrt = document.getElementById('alert').checked;
   if (units == 'min') timeout *= 60;
-  if (units == 'sec' && timeout < 16) timeout = 16;
+  if (units == 'sec' && timeout < 20) timeout = 20;
   
   chrome.storage.sync.set({
     fb: fb,
